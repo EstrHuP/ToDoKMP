@@ -5,16 +5,16 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.realm.plugin)
 }
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
         }
     }
 
@@ -42,12 +42,12 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.voyager.navigator)
+            implementation(libs.navigator)
+            implementation(libs.navigator.screen.model)
+            implementation(libs.navigator.transitions)
+            implementation(libs.navigator.koin)
             implementation(libs.koin.core)
-            implementation(libs.androidx.core.ktx)
 
             implementation(libs.mongodb.realm)
             implementation(libs.kotlin.coroutines)
@@ -80,6 +80,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    sourceSets["main"].apply {
+        res.srcDirs("src/androidMain/res", "src/commonMain/resources")
     }
 }
 
