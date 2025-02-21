@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -61,20 +62,23 @@ fun TaskView(
                 textDecoration = if (showActive) TextDecoration.None else TextDecoration.LineThrough
             )
         }
+        // Favourite button
         IconButton(
             onClick = {
                 if (showActive) onFavorite(task, !task.favorite)
                 else onDelete(task)
             }
         ) {
+            // Design button
             Icon(
                 painter = painterResource(
-                    if (showActive) Res.drawable.star
-                    else Res.drawable.delete
+                    if (showActive) Res.drawable.ic_star
+                    else Res.drawable.ic_delete
                 ),
-                contentDescription = "Favorit Icon",
-                tint = if (task.favorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-                alpha = 0.38f
+                contentDescription = "Favourite Icon",
+                tint =
+                if (task.favorite) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.onSurface
             )
         }
     }
